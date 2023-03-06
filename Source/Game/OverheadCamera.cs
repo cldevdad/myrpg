@@ -7,7 +7,7 @@ using MyRpg.Api;
 namespace MyRpg;
 
 /// <summary>
-/// A n overhead camera for the map view.
+/// An overhead camera for the map view.
 /// </summary>
 public class OverheadCamera : IUpdatableEntity
 {

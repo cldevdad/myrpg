@@ -10,7 +10,7 @@ namespace MyRpg.Engine.Scenes;
 internal abstract class CameraScene : GameScene
 {
     /// <summary>
-    /// Initializes a new scene and resolves any dependencies the scene needs.
+    /// Initializes a new camera scene and resolves any dependencies the scene needs.
     /// </summary>
     /// <param name="Id">Unique identifier for the scene.</param>
     protected CameraScene(string? id = null)
