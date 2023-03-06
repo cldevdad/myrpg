@@ -51,14 +51,14 @@
 </data>
  </layer>
  <objectgroup id="2" name="Triggers">
-  <object id="5" name="door-forest" gid="10" x="1285.21" y="1284.91" width="185.333" height="64">
+  <object id="5" name="door-forest" gid="10" x="1285.21" y="1284.91" width="185.333" height="32">
    <properties>
     <property name="targetMap" value="forest"/>
     <property name="targetSpawnPoint" value="entrance"/>
     <property name="type" value="door"/>
    </properties>
   </object>
-  <object id="7" name="spawn-forest-entrance" gid="10" x="1344.99" y="1135.97" width="64" height="64">
+  <object id="7" name="spawn-forest-entrance" gid="10" x="1344.99" y="1199.97" width="64" height="64">
    <properties>
     <property name="name" value="forest-entrance"/>
     <property name="type" value="spawn"/>
@@ -77,7 +77,7 @@
     <property name="type" value="spawn"/>
    </properties>
   </object>
-  <object id="10" name="door-house" gid="10" x="782.667" y="518.667" width="64" height="64">
+  <object id="10" name="door-house" gid="10" x="765.667" y="479" width="64" height="32">
    <properties>
     <property name="targetMap" value="house"/>
     <property name="targetSpawnPoint" value="entrance"/>
