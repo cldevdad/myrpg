@@ -12,7 +12,7 @@ namespace MyRpg.Scenes;
 /// <summary>
 /// The gameplay scene.
 /// </summary>
-internal class GameplayScene : GameScene
+internal class GameplayScene : CameraScene
 {
     /// <summary>
     /// Constructs and returns a new GameplayScene.
@@ -32,10 +32,6 @@ internal class GameplayScene : GameScene
     {
         base.LoadContent();
 
-        var camera = new Camera(this.GraphicsDevice.Viewport);
-        camera.AdjustZoom(2f);
-        Entities.Add("camera", camera);
-
         LoadMap("town", "house");
     }
 
@@ -49,14 +45,10 @@ internal class GameplayScene : GameScene
             return;
         }
 
+        UpdateCamera();
         CheckMapTriggers();
 
         base.Update(gameTime);
-    }
-
-    public override void Draw(Matrix? transformMatrix = null)
-    {
-        base.Draw(Camera?.Transform);
     }
 
     /// <summary>
@@ -72,7 +64,7 @@ internal class GameplayScene : GameScene
     /// <summary>
     /// The player character entity.
     /// </summary>
-    private Camera? Camera => Entities["camera"] as Camera;
+    private OverheadCamera? Camera => Entities["camera"] as OverheadCamera;
 
     /// <summary>
     /// Spawns the player at a position.
@@ -80,9 +72,10 @@ internal class GameplayScene : GameScene
     /// <param name="position">Position to spawn at.</param>
     private void SpawnPlayer(Vector2 position)
     {
-        if (PlayerCharacter != null)
+        if (PlayerCharacter != null && Camera != null)
         {
             PlayerCharacter.Position = position;
+            Camera.Position = position;
         }
     }
 
@@ -101,6 +94,7 @@ internal class GameplayScene : GameScene
         var spawnTrigger = map.TiledMap
             .GetLayer<TiledMapObjectLayer>("Triggers")
             ?.Objects.First(o => o.Properties["type"] == "spawn" && o.Properties["name"] == spawnPoint);
+
         if (spawnTrigger == null)
         {
             return;
@@ -143,5 +137,38 @@ internal class GameplayScene : GameScene
                 LoadMap(door.Properties["targetMap"], door.Properties["targetSpawnPoint"]);
             }
         }
+    }
+
+    /// <summary>
+    /// Update the camera to focus on the player.
+    /// </summary>
+    private void UpdateCamera()
+    {
+        if (Camera == null || this.CurrentMap == null || PlayerCharacter == null)
+        {
+            return;
+        }
+
+        var cameraPosition = Camera.Position;
+        var playerPosition = PlayerCharacter.Position;
+        var mapSizeInPixels = this.CurrentMap.MapProperties.SizeInPixels;
+
+        var halfScreenWidth = Width / Camera.Zoom / 2;
+        var halfScreenHeight = Height / Camera.Zoom / 2;
+
+        // Update the camera's X position if it's not at the left or right edge of the screen
+        if (playerPosition.X > halfScreenWidth && playerPosition.X < mapSizeInPixels.Width - halfScreenWidth)
+        {
+            cameraPosition.X = playerPosition.X;
+        }
+
+        // Update the camera's Y position if it's not at the left or right edge of the screen
+        if (playerPosition.Y > halfScreenHeight && playerPosition.Y < mapSizeInPixels.Height - halfScreenHeight)
+        {
+            cameraPosition.Y = playerPosition.Y;
+        }
+
+        // Set the new camera position
+        Camera.Position = cameraPosition;
     }
 }

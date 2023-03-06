@@ -6,7 +6,10 @@ using MyRpg.Api;
 
 namespace MyRpg;
 
-public class Camera : IUpdatableEntity
+/// <summary>
+/// A n overhead camera for the map view.
+/// </summary>
+public class OverheadCamera : IUpdatableEntity
 {
     public float Zoom { get; set; }
     public Vector2 Position { get; set; }
@@ -27,11 +30,11 @@ public class Camera : IUpdatableEntity
         zoom,
         previousZoom;
 
-    public Camera(Viewport viewport)
+    public OverheadCamera(Viewport viewport, Vector2 position)
     {
         Bounds = viewport.Bounds;
         Zoom = 1f;
-        Position = Vector2.Zero;
+        Position = position;
         _viewport = viewport;
     }
 
@@ -91,48 +94,6 @@ public class Camera : IUpdatableEntity
         UpdateMatrix();
 
         Vector2 cameraMovement = Vector2.Zero;
-        int moveSpeed;
-
-        if (Zoom > .8f)
-        {
-            moveSpeed = 15;
-        }
-        else if (Zoom < .8f && Zoom >= .6f)
-        {
-            moveSpeed = 20;
-        }
-        else if (Zoom < .6f && Zoom > .35f)
-        {
-            moveSpeed = 25;
-        }
-        else if (Zoom <= .35f)
-        {
-            moveSpeed = 30;
-        }
-        else
-        {
-            moveSpeed = 10;
-        }
-
-        if (keyboardState.IsKeyDown(Keys.NumPad8))
-        {
-            cameraMovement.Y = -moveSpeed;
-        }
-
-        if (keyboardState.IsKeyDown(Keys.NumPad5))
-        {
-            cameraMovement.Y = moveSpeed;
-        }
-
-        if (keyboardState.IsKeyDown(Keys.NumPad4))
-        {
-            cameraMovement.X = -moveSpeed;
-        }
-
-        if (keyboardState.IsKeyDown(Keys.NumPad6))
-        {
-            cameraMovement.X = moveSpeed;
-        }
 
         previousMouseWheelValue = currentMouseWheelValue;
         currentMouseWheelValue = Mouse.GetState().ScrollWheelValue;
@@ -149,10 +110,6 @@ public class Camera : IUpdatableEntity
 
         previousZoom = zoom;
         zoom = Zoom;
-        if (previousZoom != zoom)
-        {
-            // Console.WriteLine(zoom);
-        }
 
         MoveCamera(cameraMovement);
     }

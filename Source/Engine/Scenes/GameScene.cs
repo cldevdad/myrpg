@@ -80,6 +80,7 @@ internal abstract class GameScene : IScene
     /// <inheritdoc />
     public virtual void Draw(Matrix? transformMatrix = null)
     {
+        this.SpriteBatch.Begin();
         if (Active)
         {
             foreach (var entity in Entities.Where(e => e.Value.GetType().IsAssignableTo(typeof(IDrawableEntity))))
@@ -87,6 +88,7 @@ internal abstract class GameScene : IScene
                 (entity.Value as IDrawableEntity)?.Draw(this.SpriteBatch, transformMatrix);
             }
         }
+        this.SpriteBatch.End();
     }
 
     /// <inheritdoc />
