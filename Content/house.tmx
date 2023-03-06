@@ -27,14 +27,14 @@
 </data>
  </layer>
  <objectgroup id="2" name="Triggers">
-  <object id="3" name="door-exit" gid="10" x="833.91" y="69.493" width="64" height="64">
+  <object id="3" name="door-exit" gid="10" x="833.91" y="32.493" width="64" height="32">
    <properties>
     <property name="targetMap" value="town"/>
     <property name="targetSpawnPoint" value="house"/>
     <property name="type" value="door"/>
    </properties>
   </object>
-  <object id="9" name="spawn-entrance" gid="10" x="1022.34" y="317.387" width="64" height="64">
+  <object id="9" name="spawn-entrance" gid="10" x="830.34" y="253.387" width="64" height="64">
    <properties>
     <property name="name" value="entrance"/>
     <property name="type" value="spawn"/>

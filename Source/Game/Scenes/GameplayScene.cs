@@ -156,16 +156,37 @@ internal class GameplayScene : CameraScene
         var halfScreenWidth = Width / Camera.Zoom / 2;
         var halfScreenHeight = Height / Camera.Zoom / 2;
 
-        // Update the camera's X position if it's not at the left or right edge of the screen
-        if (playerPosition.X > halfScreenWidth && playerPosition.X < mapSizeInPixels.Width - halfScreenWidth)
+        var leftEdge = halfScreenWidth;
+        var rightEdge = mapSizeInPixels.Width - halfScreenWidth;
+        var topEdge = halfScreenHeight;
+        var bottomEdge = mapSizeInPixels.Height - halfScreenHeight;
+
+        // X position
+        if (playerPosition.X > leftEdge && playerPosition.X < rightEdge)
         {
             cameraPosition.X = playerPosition.X;
         }
+        else if (playerPosition.X < leftEdge)
+        {
+            cameraPosition.X = leftEdge;
+        }
+        else if (playerPosition.X > rightEdge)
+        {
+            cameraPosition.X = rightEdge;
+        }
 
-        // Update the camera's Y position if it's not at the left or right edge of the screen
-        if (playerPosition.Y > halfScreenHeight && playerPosition.Y < mapSizeInPixels.Height - halfScreenHeight)
+        // Y position
+        if (playerPosition.Y > topEdge && playerPosition.Y < bottomEdge)
         {
             cameraPosition.Y = playerPosition.Y;
+        }
+        else if (playerPosition.Y < topEdge)
+        {
+            cameraPosition.Y = topEdge;
+        }
+        else if (playerPosition.Y > bottomEdge)
+        {
+            cameraPosition.Y = bottomEdge;
         }
 
         // Set the new camera position
