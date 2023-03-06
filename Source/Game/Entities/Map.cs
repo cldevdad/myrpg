@@ -6,7 +6,9 @@ using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using MyRpg.Engine.Components;
 using MyRpg.Engine.Entities;
+using MyRpg.Engine.Utilities;
 using MyRpg.Exceptions;
+using MyRpg.Properties;
 
 namespace MyRpg.Entities;
 
@@ -21,6 +23,21 @@ public class Map : DisplayEntity
     public TiledMap TiledMap
     {
         get => Components.Find(c => c.Id == "tiledMap")?.GetValue<TiledMap>() ?? throw new MapNotFoundException();
+    }
+
+    /// <summary>
+    /// Properties for the map.
+    /// </summary>
+    public MapProperties MapProperties
+    {
+        get
+        {
+            var mapProperties = new MapProperties();
+            mapProperties.TileSize = new Size(TiledMap.TileWidth, TiledMap.TileHeight);
+            mapProperties.SizeInTiles = new Size(TiledMap.Width, TiledMap.Height);
+            mapProperties.SizeInPixels = mapProperties.TileSize * mapProperties.SizeInTiles;
+            return mapProperties;
+        }
     }
 
     /// <summary>
@@ -44,7 +61,7 @@ public class Map : DisplayEntity
     /// <inheritdoc />
     public override void Draw(SpriteBatch spriteBatch, Matrix? transformMatrix = null)
     {
-        Components.Find(c => c.Id == "renderer")?.GetValue<TiledMapRenderer>().Draw();
+        Components.Find(c => c.Id == "renderer")?.GetValue<TiledMapRenderer>().Draw(transformMatrix);
     }
 
     /// <inheritdoc />

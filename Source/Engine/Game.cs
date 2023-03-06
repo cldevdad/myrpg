@@ -45,8 +45,8 @@ public class Game : Microsoft.Xna.Framework.Game
     {
         _graphicsDeviceManager.IsFullScreen = false;
         _graphicsDeviceManager.PreferMultiSampling = true;
-        _graphicsDeviceManager.PreferredBackBufferWidth = 1440;
-        _graphicsDeviceManager.PreferredBackBufferHeight = 960;
+        _graphicsDeviceManager.PreferredBackBufferWidth = 1280;
+        _graphicsDeviceManager.PreferredBackBufferHeight = 720;
         _graphicsDeviceManager.SynchronizeWithVerticalRetrace = true;
         _graphicsDeviceManager.ApplyChanges();
 

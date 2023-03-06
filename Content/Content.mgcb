@@ -14,6 +14,11 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin forest.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:forest.tmx
+
 #begin grassland.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
