@@ -55,24 +55,27 @@ public class Hero : DisplayEntity
     /// <inheritdoc />
     public override void Update(GameTime gameTime, KeyboardState? keyboardState = null)
     {
+        bool sprint =
+            (keyboardState?.IsKeyDown(Keys.RightShift) ?? false) || (keyboardState?.IsKeyDown(Keys.LeftShift) ?? false);
+
         if ((keyboardState?.IsKeyDown(Keys.Up) ?? false) || (keyboardState?.IsKeyDown(Keys.W) ?? false))
         {
-            MoveDirection(Direction.UP, gameTime);
+            MoveDirection(Direction.UP, gameTime, sprint);
         }
 
         if ((keyboardState?.IsKeyDown(Keys.Down) ?? false) || (keyboardState?.IsKeyDown(Keys.S) ?? false))
         {
-            MoveDirection(Direction.DOWN, gameTime);
+            MoveDirection(Direction.DOWN, gameTime, sprint);
         }
 
         if ((keyboardState?.IsKeyDown(Keys.Left) ?? false) || (keyboardState?.IsKeyDown(Keys.A) ?? false))
         {
-            MoveDirection(Direction.LEFT, gameTime);
+            MoveDirection(Direction.LEFT, gameTime, sprint);
         }
 
         if ((keyboardState?.IsKeyDown(Keys.Right) ?? false) || (keyboardState?.IsKeyDown(Keys.D) ?? false))
         {
-            MoveDirection(Direction.RIGHT, gameTime);
+            MoveDirection(Direction.RIGHT, gameTime, sprint);
         }
     }
 
@@ -81,27 +84,29 @@ public class Hero : DisplayEntity
     /// </summary>
     /// <param name="direction">Direction to move character.</param>
     /// <param name="gameTime">Elapsed time since the last update.</param>
-    private void MoveDirection(Direction direction, GameTime gameTime)
+    /// <param name="sprint">Whether or not to move at sprint speed. </param>
+    private void MoveDirection(Direction direction, GameTime gameTime, bool sprint)
     {
         var position = Position;
+        var speed = sprint ? Speed * 2 : Speed;
 
         switch (direction)
         {
             case Direction.UP:
                 SetTexture($"{ContentRoot}/hero_back");
-                position.Y -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                position.Y -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             case Direction.DOWN:
                 SetTexture($"{ContentRoot}/hero");
-                position.Y += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                position.Y += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             case Direction.LEFT:
                 SetTexture($"{ContentRoot}/hero_left");
-                position.X -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                position.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             case Direction.RIGHT:
                 SetTexture($"{ContentRoot}/hero_right");
-                position.X += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                position.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             default:
                 break;
