@@ -21,7 +21,9 @@ public class Logo : DisplayEntity
     /// <inheritdoc />
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
-        AddTextureAndSet("MyRpgLogo");
+        ContentRoot = "UI";
+
+        AddTextureAndSet($"{ContentRoot}/MyRpgLogo");
         base.LoadContent(contentManager, graphicsDevice);
     }
 

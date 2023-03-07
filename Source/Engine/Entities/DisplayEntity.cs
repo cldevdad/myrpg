@@ -20,6 +20,9 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
         get => EntityType.DISPLAY;
     }
 
+    /// <inheritdoc />
+    public string ContentRoot { get; set; } = string.Empty;
+
     /// <summary>
     /// The value of the entity's position component.
     /// </summary>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="12">
- <tileset firstgid="1" source="outsideTiles.tsx"/>
- <tileset firstgid="11" source="Outdoor.tsx"/>
+ <tileset firstgid="1" source="../Tilesets/outsideTiles.tsx"/>
+ <tileset firstgid="11" source="../Tilesets/Outdoor.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="20">
   <data encoding="csv">
 177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,177,
@@ -51,14 +51,14 @@
 </data>
  </layer>
  <objectgroup id="2" name="Triggers">
-  <object id="5" name="door-forest" gid="10" x="1285.21" y="1284.91" width="185.333" height="32">
+  <object id="5" name="door-forest" gid="10" x="1285.21" y="1312.91" width="185.333" height="32">
    <properties>
     <property name="targetMap" value="forest"/>
     <property name="targetSpawnPoint" value="entrance"/>
     <property name="type" value="door"/>
    </properties>
   </object>
-  <object id="7" name="spawn-forest-entrance" gid="10" x="1344.99" y="1199.97" width="64" height="64">
+  <object id="7" name="spawn-forest-entrance" gid="10" x="1344.99" y="1216.97" width="64" height="64">
    <properties>
     <property name="name" value="forest-entrance"/>
     <property name="type" value="spawn"/>
@@ -77,7 +77,7 @@
     <property name="type" value="spawn"/>
    </properties>
   </object>
-  <object id="10" name="door-house" gid="10" x="765.667" y="479" width="64" height="32">
+  <object id="10" name="door-house" gid="10" x="765.667" y="460" width="64" height="32">
    <properties>
     <property name="targetMap" value="house"/>
     <property name="targetSpawnPoint" value="entrance"/>

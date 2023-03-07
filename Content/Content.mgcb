@@ -14,17 +14,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin forest.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:forest.tmx
-
-#begin grassland.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:grassland.tmx
-
-#begin hero_back.png
+#begin Characters/hero_back.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -34,9 +24,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:hero_back.png
+/build:Characters/hero_back.png
 
-#begin hero_left.png
+#begin Characters/hero_left.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -46,9 +36,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:hero_left.png
+/build:Characters/hero_left.png
 
-#begin hero_right.png
+#begin Characters/hero_right.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -58,9 +48,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:hero_right.png
+/build:Characters/hero_right.png
 
-#begin hero.png
+#begin Characters/hero.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -70,21 +60,56 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:hero.png
+/build:Characters/hero.png
 
-#begin house.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:house.tmx
-
-#begin MyFont.spritefont
+#begin Fonts/MyFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:MyFont.spritefont
+/build:Fonts/MyFont.spritefont
 
-#begin MyRpgLogo.png
+#begin Maps/forest.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/forest.tmx
+
+#begin Maps/house.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/house.tmx
+
+#begin Maps/town.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/town.tmx
+
+#begin Tilesets/Houses.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Tilesets/Houses.tsx
+
+#begin Tilesets/Indoor.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Tilesets/Indoor.tsx
+
+#begin Tilesets/Interior_House.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Tilesets/Interior_House.tsx
+
+#begin Tilesets/Outdoor.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Tilesets/Outdoor.tsx
+
+#begin Tilesets/outsideTiles.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Tilesets/outsideTiles.tsx
+
+#begin UI/MyRpgLogo.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -94,25 +119,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MyRpgLogo.png
-
-#begin Outdoor.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:Outdoor.tsx
-
-#begin outsideTiles.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:outsideTiles.tsx
-
-#begin rpgTiles.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:rpgTiles.tsx
-
-#begin town.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:town.tmx
+/build:UI/MyRpgLogo.png
 

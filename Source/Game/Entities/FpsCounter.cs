@@ -35,7 +35,10 @@ public class FpsCounter : DisplayEntity
     /// <inheritdoc />
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
-        Components.Add(new Component("font", typeof(SpriteFont), contentManager.Load<SpriteFont>("MyFont")));
+        ContentRoot = "Fonts";
+        Components.Add(
+            new Component("font", typeof(SpriteFont), contentManager.Load<SpriteFont>($"{ContentRoot}/MyFont"))
+        );
     }
 
     /// <inheritdoc />

@@ -46,12 +46,15 @@ public class Map : DisplayEntity
     /// <param name="id">Unique identifier for the entity.</param>
     /// <param name="position">Screen position of the entity.</param>
     public Map(string id, Vector2 position = default(Vector2))
-        : base(id, position) { }
+        : base(id, position)
+    {
+        ContentRoot = "Maps";
+    }
 
     /// <inheritdoc />
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
-        var tiledMap = contentManager.Load<TiledMap>(Id);
+        var tiledMap = contentManager.Load<TiledMap>($"{ContentRoot}/{Id}");
         Components.Add(new Component("tiledMap", typeof(TiledMap), tiledMap));
         Components.Add(
             new Component("renderer", typeof(TiledMapRenderer), new TiledMapRenderer(graphicsDevice, tiledMap))
