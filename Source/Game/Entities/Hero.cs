@@ -37,7 +37,18 @@ public class Hero : DisplayEntity
     /// <inheritdoc />
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
-        AddTexturesAndSet(new List<string>() { "hero", "hero_back", "hero_left", "hero_right" }, "hero");
+        ContentRoot = "Characters";
+
+        AddTexturesAndSet(
+            new List<string>()
+            {
+                $"{ContentRoot}/hero",
+                $"{ContentRoot}/hero_back",
+                $"{ContentRoot}/hero_left",
+                $"{ContentRoot}/hero_right"
+            },
+            $"{ContentRoot}/hero"
+        );
         base.LoadContent(contentManager, graphicsDevice);
     }
 
@@ -77,19 +88,19 @@ public class Hero : DisplayEntity
         switch (direction)
         {
             case Direction.UP:
-                SetTexture("hero_back");
+                SetTexture($"{ContentRoot}/hero_back");
                 position.Y -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             case Direction.DOWN:
-                SetTexture("hero");
+                SetTexture($"{ContentRoot}/hero");
                 position.Y += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             case Direction.LEFT:
-                SetTexture("hero_left");
+                SetTexture($"{ContentRoot}/hero_left");
                 position.X -= Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             case Direction.RIGHT:
-                SetTexture("hero_right");
+                SetTexture($"{ContentRoot}/hero_right");
                 position.X += Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 break;
             default:

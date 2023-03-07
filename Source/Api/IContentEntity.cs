@@ -9,7 +9,12 @@ namespace MyRpg.Api;
 public interface IContentEntity : IEntity
 {
     /// <summary>
-    /// Load all content resources required by the entity.
+    /// Root path to content the entity uses.
+    /// </summary>
+    string ContentRoot { get; set; }
+
+    /// <summary>
+    /// Load all content required by the entity.
     /// </summary>
     /// <param name="contentManager">The game's Microsoft.Xna.Framework.Content.ContentManager dependency.</param>
     /// <param name="graphicsDevice">The game's Microsoft.Xna.Framework.Graphics.GraphicsDevice dependency.</param>

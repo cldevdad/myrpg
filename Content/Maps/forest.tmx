@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="3">
- <tileset firstgid="1" source="Outdoor.tsx"/>
- <tileset firstgid="351" source="outsideTiles.tsx"/>
+ <tileset firstgid="1" source="../Tilesets/Outdoor.tsx"/>
+ <tileset firstgid="351" source="../Tilesets/outsideTiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="60">
   <data encoding="csv">
 21,22,22,22,22,22,22,22,22,22,22,22,1,1,1,22,22,22,22,22,22,22,22,22,22,22,22,22,22,23,
@@ -73,7 +73,7 @@
     <property name="type" value="spawn"/>
    </properties>
   </object>
-  <object id="2" name="door-town" gid="360" x="770.333" y="32" width="185.333" height="32">
+  <object id="2" name="door-town" gid="360" x="770.333" y="-1" width="185.333" height="32">
    <properties>
     <property name="targetMap" value="town"/>
     <property name="targetSpawnPoint" value="forest-entrance"/>
