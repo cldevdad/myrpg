@@ -105,9 +105,7 @@ internal sealed class RpgGame : MyRpg.Engine.Game
             return;
         }
 
-        // this.SpriteBatch.Begin();
         ActiveScenes().ForEach(scene => scene.Draw());
-        // this.SpriteBatch.End();
     }
 
     /// <inheritdoc />

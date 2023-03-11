@@ -105,7 +105,7 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
     }
 
     /// <inheritdoc />
-    public Rectangle GetBoundingRect()
+    public virtual Rectangle GetBoundingRect()
     {
         var position = Position;
         var texture = Texture;
