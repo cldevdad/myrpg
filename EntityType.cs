@@ -4,4 +4,5 @@ public enum EntityType
 {
     UNKNOWN,
     DISPLAY,
+    ANIMATION,
 }

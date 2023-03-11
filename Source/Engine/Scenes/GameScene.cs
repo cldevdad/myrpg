@@ -20,7 +20,7 @@ internal abstract class GameScene : IScene
     public bool Active { get; set; } = false;
 
     /// <inheritdoc />
-    public Dictionary<string, IEntity> Entities { get; } = new Dictionary<string, IEntity>();
+    public Dictionary<string, IEntity> Entities { get; set; } = new Dictionary<string, IEntity>();
 
     /// <summary>
     /// The game's Microsoft.Xna.Framework.Content.ContentManager dependency.

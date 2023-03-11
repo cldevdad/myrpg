@@ -6,23 +6,28 @@ using Microsoft.Xna.Framework.Input;
 using MyRpg.Engine.Components;
 using MyRpg.Engine.Entities;
 using MyRpg.Engine.Enums;
+using MyRpg.Engine.Utilities;
 
 namespace MyRpg.Entities;
 
 /// <summary>
-/// A hero character that can move in four directions.
+/// A hero character that can walk and sprint in four directions.
 /// </summary>
-public class Hero : DisplayEntity
+public class Hero : AnimatedDisplayEntity
 {
     /// <summary>
     /// Initializes and returns a new instance of the Hero class.
     /// </summary>
     /// <param name="id">Unique identifier for the entity.</param>
+    /// <param name="frameSize">Animation frame size.</param>
     /// <param name="position">Screen position of the entity.</param>
-    public Hero(string id, Vector2 position = default(Vector2))
-        : base(id, position)
+    public Hero(string id, Size frameSize, Vector2 position = default(Vector2))
+        : base(id, frameSize, position)
     {
         Components.Add(new Component("speed", typeof(float), 200f));
+        AnimationDefinition.FrameDuration = Speed;
+        AnimationDefinition.CycleDirections = true;
+        AnimationRow = AnimationTextureRowIndex.WALK_DOWN;
     }
 
     /// <summary>
@@ -39,74 +44,80 @@ public class Hero : DisplayEntity
     {
         ContentRoot = "Characters";
 
-        AddTexturesAndSet(
-            new List<string>()
-            {
-                $"{ContentRoot}/hero",
-                $"{ContentRoot}/hero_back",
-                $"{ContentRoot}/hero_left",
-                $"{ContentRoot}/hero_right"
-            },
-            $"{ContentRoot}/hero"
-        );
+        AddTextureAndSet($"{ContentRoot}/hero");
+
         base.LoadContent(contentManager, graphicsDevice);
     }
 
     /// <inheritdoc />
     public override void Update(GameTime gameTime, KeyboardState? keyboardState = null)
     {
-        bool sprint =
+        base.Update(gameTime, keyboardState);
+
+        PauseAnimation();
+
+        // Hero movement
+        var wasSprinting = _sprinting;
+        _sprinting =
             (keyboardState?.IsKeyDown(Keys.RightShift) ?? false) || (keyboardState?.IsKeyDown(Keys.LeftShift) ?? false);
+
+        if (_sprinting != wasSprinting)
+        {
+            AnimationDefinition.FrameDuration = _sprinting ? Speed / 2 : Speed;
+        }
 
         if ((keyboardState?.IsKeyDown(Keys.Up) ?? false) || (keyboardState?.IsKeyDown(Keys.W) ?? false))
         {
-            MoveDirection(Direction.UP, gameTime, sprint);
+            MoveInDirection(Direction.UP, gameTime);
         }
 
         if ((keyboardState?.IsKeyDown(Keys.Down) ?? false) || (keyboardState?.IsKeyDown(Keys.S) ?? false))
         {
-            MoveDirection(Direction.DOWN, gameTime, sprint);
+            MoveInDirection(Direction.DOWN, gameTime);
         }
 
         if ((keyboardState?.IsKeyDown(Keys.Left) ?? false) || (keyboardState?.IsKeyDown(Keys.A) ?? false))
         {
-            MoveDirection(Direction.LEFT, gameTime, sprint);
+            MoveInDirection(Direction.LEFT, gameTime);
         }
 
         if ((keyboardState?.IsKeyDown(Keys.Right) ?? false) || (keyboardState?.IsKeyDown(Keys.D) ?? false))
         {
-            MoveDirection(Direction.RIGHT, gameTime, sprint);
+            MoveInDirection(Direction.RIGHT, gameTime);
         }
     }
+
+    private bool _sprinting = false;
 
     /// <summary>
     /// Move the character in a direction.
     /// </summary>
-    /// <param name="direction">Direction to move character.</param>
+    /// <param name="direction">Direction to move in.</param>
     /// <param name="gameTime">Elapsed time since the last update.</param>
-    /// <param name="sprint">Whether or not to move at sprint speed. </param>
-    private void MoveDirection(Direction direction, GameTime gameTime, bool sprint)
+    private void MoveInDirection(Direction direction, GameTime gameTime)
     {
+        PlayAnimation(loop: true, cycleDirections: true);
+
         var position = Position;
-        var speed = sprint ? Speed * 2 : Speed;
+        var speed = _sprinting ? Speed * 2 : Speed;
 
         switch (direction)
         {
             case Direction.UP:
-                SetTexture($"{ContentRoot}/hero_back");
                 position.Y -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AnimationRow = AnimationTextureRowIndex.WALK_UP;
                 break;
             case Direction.DOWN:
-                SetTexture($"{ContentRoot}/hero");
                 position.Y += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AnimationRow = AnimationTextureRowIndex.WALK_DOWN;
                 break;
             case Direction.LEFT:
-                SetTexture($"{ContentRoot}/hero_left");
                 position.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AnimationRow = AnimationTextureRowIndex.WALK_LEFT;
                 break;
             case Direction.RIGHT:
-                SetTexture($"{ContentRoot}/hero_right");
                 position.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                AnimationRow = AnimationTextureRowIndex.WALK_RIGHT;
                 break;
             default:
                 break;

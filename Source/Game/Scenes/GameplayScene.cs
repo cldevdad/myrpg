@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MyRpg.Engine.Scenes;
+using MyRpg.Engine.Utilities;
 using MyRpg.Entities;
 using MyRpg.Exceptions;
 using MyRpg.Logging;
@@ -24,7 +25,7 @@ internal class GameplayScene : CameraScene
     /// <inheritdoc />
     public override void Initialize()
     {
-        Entities.Add("player", new Hero("player"));
+        Entities.Add("player", new Hero("hero", new Size(64, 72)));
     }
 
     /// <inheritdoc />
@@ -88,9 +89,13 @@ internal class GameplayScene : CameraScene
     {
         RpgGame.Instance.Dependencies.Resolve<ILogger>().Log($"Loading map {mapId} at spawn point {spawnPoint}");
 
+        // Load the map
         Map map = new Map(mapId);
         map.LoadContent(this.ContentManager, this.GraphicsDevice);
+        Entities["map"] = map;
+        LoadMapObjects();
 
+        // Find the spawn trigger
         var spawnTrigger = map.TiledMap
             .GetLayer<TiledMapObjectLayer>("Triggers")
             ?.Objects.First(o => o.Properties["type"] == "spawn" && o.Properties["name"] == spawnPoint);
@@ -100,8 +105,39 @@ internal class GameplayScene : CameraScene
             return;
         }
 
-        Entities["map"] = map;
-        SpawnPlayer(spawnTrigger.Position);
+        // Tile map objects position starts from bottom-right, so we need to spawn the
+        // player a bit up and to the right
+        var spawnPosition = new Vector2(
+            spawnTrigger.Position.X + (PlayerCharacter?.GetBoundingRect().Width / 2) ?? 0,
+            spawnTrigger.Position.Y - (PlayerCharacter?.GetBoundingRect().Height / 2) ?? 0
+        );
+
+        SpawnPlayer(spawnPosition);
+    }
+
+    /// <summary>
+    /// Loads objects from the map's object's layer.
+    /// </summary>
+    private void LoadMapObjects()
+    {
+        var map = Entities["map"] as Map;
+        var mapObjectsLayer = map?.TiledMap.GetLayer<TiledMapObjectLayer>("Objects");
+
+        // Remove existing campfires
+        var nonCampfireEntities = from kvp in Entities where !kvp.Key.StartsWith("campfire") select kvp;
+        Entities = nonCampfireEntities.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+        // Add new campfires
+        var campfires = mapObjectsLayer?.Objects.Where(obj => obj.Name == "Campfire");
+        var campfireIndex = 0;
+        foreach (var pos in campfires?.Select(fireObject => fireObject.Position) ?? Enumerable.Empty<Vector2>())
+        {
+            var campfire = new Campfire("campfire", new Size(64, 64), new Vector2(pos.X + 32, pos.Y + 32));
+            campfire.LoadContent(this.ContentManager);
+
+            Entities.Add($"campfire_{campfireIndex}", campfire);
+            campfireIndex++;
+        }
     }
 
     /// <summary>
