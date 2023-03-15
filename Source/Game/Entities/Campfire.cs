@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MyRpg.Engine.Entities;
 using MyRpg.Engine.Utilities;
+using MyRpg.Enums;
 
 namespace MyRpg.Entities;
 
@@ -30,6 +31,7 @@ public class Campfire : AnimatedDisplayEntity
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
         ContentRoot = "Map Objects";
+        Layer = DrawLayer.ACTOR_0;
 
         AddTextureAndSet($"{ContentRoot}/Campfire");
         PlayAnimation(loop: true, cycleDirections: true);

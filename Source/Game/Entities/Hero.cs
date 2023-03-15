@@ -7,6 +7,7 @@ using MyRpg.Engine.Components;
 using MyRpg.Engine.Entities;
 using MyRpg.Engine.Enums;
 using MyRpg.Engine.Utilities;
+using MyRpg.Enums;
 
 namespace MyRpg.Entities;
 
@@ -43,6 +44,7 @@ public class Hero : AnimatedDisplayEntity
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
         ContentRoot = "Characters";
+        Layer = DrawLayer.ACTOR_1;
 
         AddTextureAndSet($"{ContentRoot}/hero");
 

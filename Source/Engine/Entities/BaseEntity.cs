@@ -6,7 +6,7 @@ namespace MyRpg.Engine.Entities;
 /// <summary>
 /// Base entity that all other game entities derive from.
 /// </summary>
-public abstract class BaseEntity : IEntity, IObjectWithId
+public abstract class BaseEntity : IEntity
 {
     /// <inheritdoc />
     public string Id { get; set; }

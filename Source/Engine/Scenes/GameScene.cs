@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MyRpg.Api;
+using MyRpg.Enums;
 
 namespace MyRpg.Engine.Scenes;
 
@@ -20,7 +21,7 @@ internal abstract class GameScene : IScene
     public bool Active { get; set; } = false;
 
     /// <inheritdoc />
-    public Dictionary<string, IEntity> Entities { get; set; } = new Dictionary<string, IEntity>();
+    public List<IEntity> Entities { get; set; } = new List<IEntity>();
 
     /// <summary>
     /// The game's Microsoft.Xna.Framework.Content.ContentManager dependency.
@@ -71,21 +72,41 @@ internal abstract class GameScene : IScene
     /// <inheritdoc />
     public virtual void LoadContent()
     {
-        foreach (var entity in Entities.Where(e => e.Value.GetType().IsAssignableTo(typeof(IContentEntity))))
+        foreach (var entity in Entities.Where(e => e.GetType().IsAssignableTo(typeof(IContentEntity))))
         {
-            (entity.Value as IContentEntity)?.LoadContent(this.ContentManager, this.GraphicsDevice);
+            (entity as IContentEntity)?.LoadContent(this.ContentManager, this.GraphicsDevice);
         }
     }
 
     /// <inheritdoc />
     public virtual void Draw(Matrix? transformMatrix = null)
     {
+        System.Console.WriteLine("Drawing");
         this.SpriteBatch.Begin();
         if (Active)
         {
-            foreach (var entity in Entities.Where(e => e.Value.GetType().IsAssignableTo(typeof(IDrawableEntity))))
+            // var drawableEntities = Entities
+            //     .Where(e => e.Value.GetType().IsAssignableTo(typeof(IDrawableEntity)))
+            //     .Cast<KeyValuePair<string, IDrawableEntity>>()
+            //     .OrderBy(e => e.Value.Layer)
+            //     .ToList();
+            var drawableEntities = new Dictionary<string, IDrawableEntity>();
+            foreach (var entity in Entities.Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity))))
             {
-                (entity.Value as IDrawableEntity)?.Draw(this.SpriteBatch, transformMatrix);
+                if (entity.Value != null)
+                {
+                    drawableEntities.Add(entity.Key, entity.Value as IDrawableEntity);
+                }
+            }
+            var asdf = drawableEntities.OrderBy(e => e.Value.Layer).ToList();
+            if (asdf != null) {
+                asdf = asdf.OrderBy(e => e.Value.Layer).ToList();
+            }
+
+            foreach (var entity in asdf)
+            {
+                System.Console.WriteLine(entity.Value.Layer);
+                entity.Value?.Draw(this.SpriteBatch, transformMatrix);
             }
         }
         this.SpriteBatch.End();
@@ -98,7 +119,7 @@ internal abstract class GameScene : IScene
         {
             var keyboardState = Keyboard.GetState();
 
-            foreach (var entity in Entities.Where(e => e.Value.GetType().IsAssignableTo(typeof(IUpdatableEntity))))
+            foreach (var entity in Entities.Where(e => e.GetType().IsAssignableTo(typeof(IUpdatableEntity))))
             {
                 (entity.Value as IUpdatableEntity)?.Update(gameTime, keyboardState);
             }
@@ -109,5 +130,9 @@ internal abstract class GameScene : IScene
     public virtual void UnloadContent()
     {
         this.ContentManager.Unload();
+    }
+
+    protected List<IDrawableEntity> GetDrawableEntities() {
+        var asdf = Entities.Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity)));
     }
 }

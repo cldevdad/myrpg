@@ -5,7 +5,7 @@ namespace MyRpg.Api;
 /// <summary>
 /// Shape of an entity that can be added to a scene.
 /// </summary>
-public interface IEntity
+public interface IEntity : IObjectWithId
 {
     /// <summary>
     /// Type of the entity.

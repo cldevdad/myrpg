@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MyRpg.Api;
+using MyRpg.Engine.Exceptions;
 
 namespace MyRpg.Engine.Scenes;
 
@@ -37,7 +39,21 @@ internal abstract class CameraScene : GameScene
         this.SpriteBatch.Begin(transformMatrix: this.Camera.Transform);
         if (Active)
         {
-            foreach (var entity in Entities.Where(e => e.Value.GetType().IsAssignableTo(typeof(IDrawableEntity))))
+            var drawableEntities = new Dictionary<string, IDrawableEntity>();
+            foreach (var entity in Entities.Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity))))
+            {
+                if (entity.Value != null)
+                {
+                    drawableEntities.Add(entity.Key, entity.Value as IDrawableEntity);
+                }
+            }
+            var asdf = drawableEntities.OrderBy(e => e.Value.Layer).ToList();
+            if (asdf != null)
+            {
+                asdf = asdf.OrderBy(e => e.Value.Layer).ToList();
+            }
+
+            foreach (var entity in asdf)
             {
                 (entity.Value as IDrawableEntity)?.Draw(this.SpriteBatch, this.Camera.Transform);
             }
@@ -51,7 +67,16 @@ internal abstract class CameraScene : GameScene
     /// </summary>
     private OverheadCamera Camera
     {
-        get => (OverheadCamera)Entities["camera"];
-        set => Entities["camera"] = value;
+        get =>
+            Entities.Find(e => e.Id == "camera") as OverheadCamera
+            ?? throw new EntityNotFoundException("Unable to find camera");
+        set
+        {
+            var existing = Entities.FindIndex(e => e.Id == "camera");
+            if (existing != -1)
+            {
+                Entities[existing] = value;
+            }
+        }
     }
 }

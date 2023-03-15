@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MyRpg.Engine.Components;
 using MyRpg.Engine.Entities;
 using MyRpg.Engine.Exceptions;
+using MyRpg.Enums;
 
 namespace MyRpg.Entities;
 
@@ -36,6 +37,8 @@ public class FpsCounter : DisplayEntity
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
         ContentRoot = "Fonts";
+        Layer = DrawLayer.UI;
+        
         Components.Add(
             new Component("font", typeof(SpriteFont), contentManager.Load<SpriteFont>($"{ContentRoot}/MyFont"))
         );

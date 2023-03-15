@@ -90,9 +90,18 @@ internal class GameplayScene : CameraScene
         RpgGame.Instance.Dependencies.Resolve<ILogger>().Log($"Loading map {mapId} at spawn point {spawnPoint}");
 
         // Load the map
+        var existingMap = Entities.FindIndex(e => e.Id == Map);
         Map map = new Map(mapId);
         map.LoadContent(this.ContentManager, this.GraphicsDevice);
-        Entities["map"] = map;
+        
+        if (existingMap != -1)
+        {
+            Entities[existingMap] = map;
+        }
+        else
+        {
+            Entities.Add(map);
+        }
         LoadMapObjects();
 
         // Find the spawn trigger

@@ -19,6 +19,6 @@ internal class DebugOverlayScene : GameScene
     /// <inheritdoc />
     public override void Initialize()
     {
-        Entities.Add("fpsCounter", new FpsCounter("fps-counter", new Vector2(5, Height - 20)));
+        Entities.Add(new FpsCounter("fps-counter", new Vector2(5, Height - 20)));
     }
 }

@@ -19,9 +19,9 @@ internal interface IScene
     bool Active { get; set; }
 
     /// <summary>
-    /// Collection of string keys and Entity values for all entities on the scene.
+    /// Collection of all entities on the scene.
     /// </summary>
-    Dictionary<string, IEntity> Entities { get; }
+    List<IEntity> Entities { get; }
 
     /// <summary>
     /// Initialize the scene before loading content.

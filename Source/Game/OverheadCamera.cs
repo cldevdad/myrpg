@@ -19,6 +19,8 @@ public class OverheadCamera : IUpdatableEntity
 
     public EntityType Type => throw new System.NotImplementedException();
 
+    public string Id { get; set; } = "camera";
+
     public List<IComponent> Components
     {
         get => throw new System.NotImplementedException();

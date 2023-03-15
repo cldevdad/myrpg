@@ -7,6 +7,7 @@ using MonoGame.Extended.Tiled.Renderers;
 using MyRpg.Engine.Components;
 using MyRpg.Engine.Entities;
 using MyRpg.Engine.Utilities;
+using MyRpg.Enums;
 using MyRpg.Exceptions;
 using MyRpg.Properties;
 
@@ -49,6 +50,7 @@ public class Map : DisplayEntity
         : base(id, position)
     {
         ContentRoot = "Maps";
+        Layer = DrawLayer.MAP;
     }
 
     /// <inheritdoc />

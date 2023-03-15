@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MyRpg.Enums;
 
 namespace MyRpg.Api;
 
@@ -8,6 +9,11 @@ namespace MyRpg.Api;
 /// </summary>
 public interface IDrawableEntity : IEntity
 {
+    /// <summary>
+    /// Z-order layer when drawing the entity.
+    /// </summary>
+    DrawLayer Layer { get; set; }
+
     /// <summary>
     /// Get the entity's bounding rectangle.
     /// </summary>

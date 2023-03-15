@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MyRpg.Engine.Entities;
+using MyRpg.Enums;
 
 namespace MyRpg.Entities;
 
@@ -22,6 +23,7 @@ public class Logo : DisplayEntity
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
         ContentRoot = "UI";
+        Layer = DrawLayer.UI;
 
         AddTextureAndSet($"{ContentRoot}/MyRpgLogo");
         base.LoadContent(contentManager, graphicsDevice);

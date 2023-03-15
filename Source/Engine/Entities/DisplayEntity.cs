@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using MyRpg.Api;
 using MyRpg.Engine.Components;
 using MyRpg.Engine.Exceptions;
+using MyRpg.Enums;
 
 namespace MyRpg.Engine.Entities;
 
@@ -46,6 +47,9 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
     /// The ID of the currently displayed texture.
     /// </summary>
     public string CurrentTextureId { get; private set; } = string.Empty;
+
+    /// <inheritdoc >
+    public DrawLayer Layer { get; set; } = 0;
 
     /// <summary>
     /// Add a texture to the entity.
