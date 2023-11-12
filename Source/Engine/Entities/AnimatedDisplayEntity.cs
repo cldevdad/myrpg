@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,17 +21,17 @@ public abstract class AnimatedDisplayEntity : DisplayEntity
     }
 
     /// <summary>
-    /// The AnimatedDisplayEntityDefinition for the entity.
+    /// Gets or sets the AnimatedDisplayEntityDefinition for the entity.
     /// </summary>
     public AnimatedDisplayEntityDefinition AnimationDefinition { get; set; }
 
     /// <summary>
-    /// Whether or not the animation is currently playing.
+    /// Gets or sets a value indicating whether whether or not the animation is currently playing.
     /// </summary>
     public bool Playing { get; set; }
 
     /// <summary>
-    /// Index of the row of animation frames in the entity's texture.
+    /// Gets or sets index of the row of animation frames in the entity's texture.
     /// </summary>
     public AnimationTextureRowIndex AnimationRow
     {
@@ -48,10 +49,10 @@ public abstract class AnimatedDisplayEntity : DisplayEntity
     }
 
     /// <summary>
-    /// Initialize and return a new Animated Display Entity.
+    /// Initializes a new instance of the <see cref="AnimatedDisplayEntity"/> class.
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="frameSize"></param>
+    /// <param name="id">The ID of the entity.</param>
+    /// <param name="frameSize">The size of each frame in the entity's texture.</param>
     /// <param name="position">Optional position of the entity.</param>
     protected AnimatedDisplayEntity(string id, Size frameSize, Vector2 position = default(Vector2))
         : base(id, position)
@@ -182,6 +183,16 @@ public abstract class AnimatedDisplayEntity : DisplayEntity
     public override void Draw(SpriteBatch spriteBatch, Matrix? transformMatrix = null)
     {
         var texture = Texture;
+
+        if (texture == null)
+        {
+            throw new InvalidOperationException("Texture is not loaded for the AnimatedDisplayEntity.");
+        }
+
+        if (_sourceRect.X + _sourceRect.Width > texture.Width || _sourceRect.Y + _sourceRect.Height > texture.Height)
+        {
+            throw new InvalidOperationException("Source rectangle is outside the bounds of the texture.");
+        }
 
         spriteBatch.Draw(
             texture,

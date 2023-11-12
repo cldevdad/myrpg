@@ -15,7 +15,7 @@ namespace MyRpg.Entities;
 public class FpsCounter : DisplayEntity
 {
     /// <summary>
-    /// The font used to render the framerate.
+    /// Gets or sets the font used to render the framerate.
     /// </summary>
     public SpriteFont Font
     {
@@ -26,7 +26,7 @@ public class FpsCounter : DisplayEntity
     }
 
     /// <summary>
-    /// Initializes and returns a new instance of the FpsCounter class.
+    /// Initializes a new instance of the <see cref="FpsCounter"/> class.
     /// </summary>
     /// <param name="id">Unique identifier for the entity.</param>
     /// <param name="position">Screen position of the entity.</param>
@@ -38,7 +38,7 @@ public class FpsCounter : DisplayEntity
     {
         ContentRoot = "Fonts";
         Layer = DrawLayer.UI;
-        
+
         Components.Add(
             new Component("font", typeof(SpriteFont), contentManager.Load<SpriteFont>($"{ContentRoot}/MyFont"))
         );

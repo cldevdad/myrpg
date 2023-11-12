@@ -28,7 +28,7 @@ public enum DrawLayer
     /// <summary>
     /// Third layer on top of the map.
     /// </summary>
-    ACTOR_3,
+    ACTOR_2,
 
     /// <summary>
     /// User interface layer.

@@ -17,7 +17,7 @@ namespace MyRpg.Entities;
 public class Hero : AnimatedDisplayEntity
 {
     /// <summary>
-    /// Initializes and returns a new instance of the Hero class.
+    /// Initializes a new instance of the <see cref="Hero"/> class.
     /// </summary>
     /// <param name="id">Unique identifier for the entity.</param>
     /// <param name="frameSize">Animation frame size.</param>
@@ -29,10 +29,11 @@ public class Hero : AnimatedDisplayEntity
         AnimationDefinition.FrameDuration = Speed;
         AnimationDefinition.CycleDirections = true;
         AnimationRow = AnimationTextureRowIndex.WALK_DOWN;
+        CustomRenderer = true;
     }
 
     /// <summary>
-    /// The value of the entity's speed component.
+    /// Gets or sets the value of the entity's speed component.
     /// </summary>
     public float Speed
     {

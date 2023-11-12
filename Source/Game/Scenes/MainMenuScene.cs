@@ -11,7 +11,7 @@ namespace MyRpg.Scenes;
 internal class MainMenuScene : GameScene
 {
     /// <summary>
-    /// Initializes and returns a new instance of the MainMenuScene class.
+    /// Initializes a new instance of the <see cref="MainMenuScene"/> class.
     /// </summary>
     /// <param name="id">Unique identifier for the scene.</param>
     public MainMenuScene(string? id = null)
@@ -20,7 +20,7 @@ internal class MainMenuScene : GameScene
     /// <inheritdoc />
     public override void Initialize()
     {
-        Entities.Add("logo", new Logo("logo", new Vector2(Width / 2, Height / 2)));
+        Entities.Add(new Logo("logo", new Vector2(Width / 2, Height / 2)));
     }
 
     /// <inheritdoc />

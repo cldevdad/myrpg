@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -5,12 +6,11 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MyRpg.Api;
-using MyRpg.Enums;
 
 namespace MyRpg.Engine.Scenes;
 
 /// <summary>
-/// A presentation of a state of game entities. Common uses are game states and menus.
+/// Base game scene object.
 /// </summary>
 internal abstract class GameScene : IScene
 {
@@ -24,39 +24,39 @@ internal abstract class GameScene : IScene
     public List<IEntity> Entities { get; set; } = new List<IEntity>();
 
     /// <summary>
-    /// The game's Microsoft.Xna.Framework.Content.ContentManager dependency.
+    /// Gets or sets the game's Microsoft.Xna.Framework.Content.ContentManager dependency.
     /// </summary>
     protected ContentManager ContentManager { get; set; }
 
     /// <summary>
-    /// The game's Microsoft.Xna.Framework.Graphics.GraphicsDevice dependency.
+    /// Gets or sets the game's Microsoft.Xna.Framework.Graphics.GraphicsDevice dependency.
     /// </summary>
     protected GraphicsDevice GraphicsDevice { get; set; }
 
     /// <summary>
-    /// The game's Microsoft.Xna.Framework.Graphics.GraphicsDeviceManager dependency.
+    /// Gets or sets the game's Microsoft.Xna.Framework.Graphics.GraphicsDeviceManager dependency.
     /// </summary>
     protected GraphicsDeviceManager GraphicsDeviceManager { get; set; }
 
     /// <summary>
-    /// The game's Microsoft.Xna.Framework.Graphics.SpriteBatch dependency.
+    /// Gets or sets the game's Microsoft.Xna.Framework.Graphics.SpriteBatch dependency.
     /// </summary>
     protected SpriteBatch SpriteBatch { get; set; }
 
     /// <summary>
-    /// The width of the scene in pixels.
+    /// Gets the width of the scene in pixels.
     /// </summary>
     protected int Width => this.GraphicsDeviceManager.PreferredBackBufferWidth;
 
     /// <summary>
-    /// The height of the scene in pixels.
+    /// Gets the height of the scene in pixels.
     /// </summary>
     protected int Height => this.GraphicsDeviceManager.PreferredBackBufferHeight;
 
     /// <summary>
-    /// Initializes a new scene and resolves any dependencies the scene needs.
+    /// Initializes a new instance of the <see cref="GameScene"/> class.
     /// </summary>
-    /// <param name="Id">Unique identifier for the scene.</param>
+    /// <param name="id">Unique identifier for the scene.</param>
     protected GameScene(string? id = null)
     {
         Id = id ?? string.Empty;
@@ -81,34 +81,28 @@ internal abstract class GameScene : IScene
     /// <inheritdoc />
     public virtual void Draw(Matrix? transformMatrix = null)
     {
-        System.Console.WriteLine("Drawing");
-        this.SpriteBatch.Begin();
+        this.SpriteBatch.Begin(transformMatrix: transformMatrix);
         if (Active)
         {
-            // var drawableEntities = Entities
-            //     .Where(e => e.Value.GetType().IsAssignableTo(typeof(IDrawableEntity)))
-            //     .Cast<KeyValuePair<string, IDrawableEntity>>()
-            //     .OrderBy(e => e.Value.Layer)
-            //     .ToList();
-            var drawableEntities = new Dictionary<string, IDrawableEntity>();
-            foreach (var entity in Entities.Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity))))
+            var drawableEntities = Entities
+                .Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity)))
+                .Cast<IDrawableEntity>()
+                .Where(e => !e.CustomRenderer)
+                .OrderBy(e => e.Layer)
+                .ToList();
+
+            var orderedDrawableEntities = drawableEntities.OrderBy(e => e.Layer).ToList();
+            if (orderedDrawableEntities != null)
             {
-                if (entity.Value != null)
-                {
-                    drawableEntities.Add(entity.Key, entity.Value as IDrawableEntity);
-                }
-            }
-            var asdf = drawableEntities.OrderBy(e => e.Value.Layer).ToList();
-            if (asdf != null) {
-                asdf = asdf.OrderBy(e => e.Value.Layer).ToList();
+                orderedDrawableEntities = orderedDrawableEntities.OrderBy(e => e.Layer).ToList();
             }
 
-            foreach (var entity in asdf)
+            foreach (var entity in orderedDrawableEntities ?? Enumerable.Empty<IDrawableEntity>())
             {
-                System.Console.WriteLine(entity.Value.Layer);
-                entity.Value?.Draw(this.SpriteBatch, transformMatrix);
+                entity?.Draw(this.SpriteBatch, transformMatrix);
             }
         }
+
         this.SpriteBatch.End();
     }
 
@@ -121,7 +115,7 @@ internal abstract class GameScene : IScene
 
             foreach (var entity in Entities.Where(e => e.GetType().IsAssignableTo(typeof(IUpdatableEntity))))
             {
-                (entity.Value as IUpdatableEntity)?.Update(gameTime, keyboardState);
+                (entity as IUpdatableEntity)?.Update(gameTime, keyboardState);
             }
         }
     }
@@ -132,7 +126,28 @@ internal abstract class GameScene : IScene
         this.ContentManager.Unload();
     }
 
-    protected List<IDrawableEntity> GetDrawableEntities() {
-        var asdf = Entities.Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity)));
+    protected List<IDrawableEntity> GetOrderedDrawableEntities()
+    {
+        var drawableEntities = Entities
+            .Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity)))
+            .Cast<IDrawableEntity>()
+            .OrderBy(e => e.Layer)
+            .ToList();
+
+        foreach (var entity in Entities.Where(e => e.GetType().IsAssignableTo(typeof(IDrawableEntity))))
+        {
+            if (entity != null)
+            {
+                drawableEntities.Add(entity as IDrawableEntity ?? throw new InvalidCastException());
+            }
+        }
+
+        var orderedEntities = drawableEntities.OrderBy(e => e.Layer).ToList();
+        if (orderedEntities != null)
+        {
+            orderedEntities = orderedEntities.OrderBy(e => e.Layer).ToList();
+        }
+
+        return orderedEntities ?? new List<IDrawableEntity>();
     }
 }

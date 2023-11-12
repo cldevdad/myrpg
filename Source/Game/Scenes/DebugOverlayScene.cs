@@ -10,7 +10,7 @@ namespace MyRpg.Scenes;
 internal class DebugOverlayScene : GameScene
 {
     /// <summary>
-    /// Initializes and returns a new instance of the DebugOverlayScene class.
+    /// Initializes a new instance of the <see cref="DebugOverlayScene"/> class.
     /// </summary>
     /// <param name="id">Unique identifier for the scene.</param>
     public DebugOverlayScene(string? id = null)

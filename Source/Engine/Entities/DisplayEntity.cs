@@ -25,7 +25,7 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
     public string ContentRoot { get; set; } = string.Empty;
 
     /// <summary>
-    /// The value of the entity's position component.
+    /// Gets or sets the value of the entity's position component.
     /// </summary>
     public Vector2 Position
     {
@@ -34,7 +34,7 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
     }
 
     /// <summary>
-    /// The value of the entity's texture component.
+    /// Gets the value of the entity's texture component.
     /// </summary>
     public Texture2D Texture
     {
@@ -44,12 +44,15 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
     }
 
     /// <summary>
-    /// The ID of the currently displayed texture.
+    /// Gets the ID of the currently displayed texture.
     /// </summary>
     public string CurrentTextureId { get; private set; } = string.Empty;
 
     /// <inheritdoc >
     public DrawLayer Layer { get; set; } = 0;
+
+    /// <inheritdoc />
+    public bool CustomRenderer { get; set; } = false;
 
     /// <summary>
     /// Add a texture to the entity.
@@ -83,6 +86,7 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
     /// Add a group of textures to the entity and set one as the currently displayed texture.
     /// </summary>
     /// <param name="textureIds">Texture IDs.</param>
+    /// <param name="idToSet">ID of texture to set as the displayed texture.</param>
     public void AddTexturesAndSet(List<string> textureIds, string idToSet)
     {
         AddTextures(textureIds);
@@ -99,8 +103,9 @@ public abstract class DisplayEntity : BaseEntity, IDrawableEntity, IUpdatableEnt
     }
 
     /// <summary>
-    /// Initialize and return a new Display Entity.
+    /// Initializes a new instance of the <see cref="DisplayEntity"/> class.
     /// </summary>
+    /// <param name="id">The entity's unique identifier.</param>
     /// <param name="position">Optional position of the entity.</param>
     protected DisplayEntity(string id, Vector2 position = default(Vector2))
         : base(id)

@@ -9,17 +9,17 @@ namespace MyRpg.Api;
 internal interface IScene
 {
     /// <summary>
-    /// Unique identifier.
+    /// Gets or sets unique identifier.
     /// </summary>
     string Id { get; set; }
 
     /// <summary>
-    /// Whether or not the scene will update or render.
+    /// Gets or sets a value indicating whether whether or not the scene will update or render.
     /// </summary>
     bool Active { get; set; }
 
     /// <summary>
-    /// Collection of all entities on the scene.
+    /// Gets collection of all entities on the scene.
     /// </summary>
     List<IEntity> Entities { get; }
 
@@ -47,5 +47,6 @@ internal interface IScene
     /// <summary>
     /// Draws all drawable entities attached to the scene.
     /// </summary>
+    /// <param name="transformMatrix">Transform matrix with translation, rotation, and scale information.</param>
     void Draw(Matrix? transformMatrix = null);
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +8,6 @@ using MonoGame.Extended.Tiled.Renderers;
 using MyRpg.Engine.Components;
 using MyRpg.Engine.Entities;
 using MyRpg.Engine.Utilities;
-using MyRpg.Enums;
 using MyRpg.Exceptions;
 using MyRpg.Properties;
 
@@ -19,7 +19,7 @@ namespace MyRpg.Entities;
 public class Map : DisplayEntity
 {
     /// <summary>
-    /// The tiled map data.
+    /// Gets the tiled map data.
     /// </summary>
     public TiledMap TiledMap
     {
@@ -27,7 +27,7 @@ public class Map : DisplayEntity
     }
 
     /// <summary>
-    /// Properties for the map.
+    /// Gets properties for the map.
     /// </summary>
     public MapProperties MapProperties
     {
@@ -42,7 +42,7 @@ public class Map : DisplayEntity
     }
 
     /// <summary>
-    /// Initializes and returns a new instance of the Map class.
+    /// Initializes a new instance of the <see cref="Map"/> class.
     /// </summary>
     /// <param name="id">Unique identifier for the entity.</param>
     /// <param name="position">Screen position of the entity.</param>
@@ -50,7 +50,8 @@ public class Map : DisplayEntity
         : base(id, position)
     {
         ContentRoot = "Maps";
-        Layer = DrawLayer.MAP;
+        Layer = Enums.DrawLayer.MAP;
+        CustomRenderer = true;
     }
 
     /// <inheritdoc />
@@ -63,10 +64,21 @@ public class Map : DisplayEntity
         );
     }
 
-    /// <inheritdoc />
-    public override void Draw(SpriteBatch spriteBatch, Matrix? transformMatrix = null)
+    /// <summary>
+    /// Draws a specific tile layer.
+    /// </summary>
+    /// <param name="layerIndex">The index of the layer to draw.</param>
+    /// <param name="transformMatrix">The transform matrix to apply to the layer.</param>
+    public void DrawLayer(int layerIndex, Matrix? transformMatrix = null)
     {
-        Components.Find(c => c.Id == "renderer")?.GetValue<TiledMapRenderer>().Draw(transformMatrix);
+        var tiledMapRenderer = Components.Find(c => c.Id == "renderer")?.GetValue<TiledMapRenderer>();
+        if (tiledMapRenderer == null || layerIndex < 0 || layerIndex >= TiledMap.Layers.Count)
+            return;
+
+        // Draw the map with only the selected layer visible
+        TiledMap.Layers[layerIndex].IsVisible = true;
+        tiledMapRenderer.Draw(transformMatrix, depth: layerIndex);
+        TiledMap.Layers[layerIndex].IsVisible = false;
     }
 
     /// <inheritdoc />

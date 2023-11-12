@@ -13,7 +13,7 @@ namespace MyRpg.Entities;
 public class Campfire : AnimatedDisplayEntity
 {
     /// <summary>
-    /// Initializes and returns a new instance of the Campfire class.
+    /// Initializes a new instance of the <see cref="Campfire"/> class.
     /// </summary>
     /// <param name="id">Unique identifier for the entity.</param>
     /// <param name="frameSize">Animation frame size.</param>
@@ -31,7 +31,7 @@ public class Campfire : AnimatedDisplayEntity
     public override void LoadContent(ContentManager contentManager, GraphicsDevice? graphicsDevice = null)
     {
         ContentRoot = "Map Objects";
-        Layer = DrawLayer.ACTOR_0;
+        Layer = DrawLayer.BASE;
 
         AddTextureAndSet($"{ContentRoot}/Campfire");
         PlayAnimation(loop: true, cycleDirections: true);
